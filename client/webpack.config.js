@@ -8,6 +8,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 const ESLintPlugin = require("eslint-webpack-plugin");
+//process.traceDeprecation = true;
 
 const config = {
   mode: "development",
@@ -28,7 +29,7 @@ const config = {
         test: /\.css$/i,
       }),
       new TerserPlugin({
-        test: /\.js(\?.*)?$/i,
+        test: /\.(js|jsx)$/i,
       }),
     ],
   },
@@ -80,7 +81,7 @@ const config = {
         use: {
           loader: "babel-loader",
           options: {
-            presets: ["@babel/preset-env", "@babel/preset-react"],
+            presets: ["@babel/preset-env"],
           },
         },
       },
@@ -136,7 +137,7 @@ module.exports = (env, argv) => {
   }
 
   if (argv.mode === "production") {
-    config.optimization.minimize = true;
+    config.optimization.minimize = false;
     config.output.filename = "[contenthash].js";
   }
 
