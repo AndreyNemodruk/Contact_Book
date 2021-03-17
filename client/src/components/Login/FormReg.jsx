@@ -61,7 +61,7 @@ const InputValue = styled.input`
 `;
 
 const FormReg = ({ setIsLogin }) => {
-  const fakeImg = "http://localhost:8080/api/img/avatarka.jpg";
+  const fakeImg = "http://contactbook.fun/api/img/avatarka.jpg";
   const initForm = {
     email: "",
     password: "",

@@ -169,7 +169,7 @@ const EditContact = () => {
   const dispatch = useDispatch();
   const contacts = useSelector((state) => state.contacts.allContacts);
   const editedContact = contacts.find((item) => item._id === id);
-  const fakeImg = "http://localhost:8080/api/img/avatarka.jpg";
+  const fakeImg = "http://contactbook.fun/api/img/avatarka.jpg";
   const initState = {
     name: "",
     surName: "",
