@@ -151,6 +151,7 @@ const ConactInform = () => {
           setShowSpinner(false);
         })
         .catch((e) => {
+          setShowSpinner(false);
           if (e.response.status === 401) {
             history.push("/");
             return;

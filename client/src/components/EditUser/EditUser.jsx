@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import C from "../constants/constatnts";
 import { ButtonClose } from "../ui/ui";
-import { errorHandler } from "../../utills/utils";
+import { useHandleError } from "../hooks/useHandleError.js";
 
 const Main = styled.div`
   grid-area: main;
@@ -143,8 +143,8 @@ const EditContact = () => {
     file: "",
   };
   const [form, setForm] = useState(initForm);
+  const { error, setErrorFromApi } = useHandleError();
   const history = useHistory();
-  const [error, setError] = useState(null);
   const fileRef = useRef();
 
   useEffect(() => {
@@ -178,15 +178,7 @@ const EditContact = () => {
           history.push("/");
           return;
         }
-        const messageErr = e.response.data;
-        if (messageErr.errors) {
-          const errors = errorHandler(messageErr.errors);
-          setError(errors);
-          clearError();
-          return;
-        }
-        setError(messageErr);
-        clearError();
+        setErrorFromApi(e.response.data);
       });
   };
 
@@ -201,7 +193,13 @@ const EditContact = () => {
         localStorage.setItem("phone_book", JSON.stringify(updatedUser));
         history.push("/contacts");
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        if (e.response.status === 401) {
+          history.push("/");
+          return;
+        }
+        setErrorFromApi(e.response.data);
+      });
   };
   return (
     <Main>

@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import C from "../constants/constatnts";
 import { ButtonClose } from "../ui/ui";
-import { errorHandler } from "../../utills/utils";
+import { useHandleError } from "../hooks/useHandleError.js";
 
 const Main = styled.div`
   grid-area: main;
@@ -185,10 +185,9 @@ const EditContact = () => {
   };
 
   const [form, setForm] = useState(id ? editedContact : initState);
+  const { error, setErrorFromApi } = useHandleError();
   const history = useHistory();
-  const [error, setError] = useState(null);
   const fileRef = useRef();
-  console.log(error);
 
   useEffect(() => {
     if (id) {
@@ -196,12 +195,17 @@ const EditContact = () => {
     }
   }, [editedContact]);
 
-  const clearError = () => {
-    setTimeout(() => setError(null), 2500);
-  };
-
   const handleForm = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const updateBirthday = () => {
+    api.contacts
+      .birthday()
+      .then((res) =>
+        dispatch({ type: C.SET_BIRTHDAY_DATA, payload: res.data.contacts })
+      )
+      .catch();
   };
 
   const updateContact = async (e) => {
@@ -226,22 +230,9 @@ const EditContact = () => {
           history.push("/");
           return;
         }
-        const messageErr = e.response.data;
-        if (messageErr.errors) {
-          const errors = errorHandler(messageErr.errors);
-          setError(errors);
-          clearError();
-          return;
-        }
-        setError(messageErr);
-        clearError();
+        setErrorFromApi(e.response.data);
       });
-    api.contacts
-      .birthday()
-      .then((res) =>
-        dispatch({ type: C.SET_BIRTHDAY_DATA, payload: res.data.contacts })
-      )
-      .catch();
+    updateBirthday();
   };
 
   const createContact = (e) => {
@@ -259,16 +250,9 @@ const EditContact = () => {
           history.push("/");
           return;
         }
-        const messageErr = e.response.data;
-        if (messageErr.errors) {
-          const errors = errorHandler(messageErr.errors);
-          setError(errors);
-          clearError();
-          return;
-        }
-        setError(messageErr);
-        clearError();
+        setErrorFromApi(e.response.data);
       });
+    updateBirthday();
   };
 
   const uploadFile = () => {
@@ -288,15 +272,7 @@ const EditContact = () => {
           history.push("/");
           return;
         }
-        const messageErr = e.response.data;
-        if (messageErr.errors) {
-          const errors = errorHandler(messageErr.errors);
-          setError(errors);
-          clearError();
-          return;
-        }
-        setError(messageErr);
-        clearError();
+        setErrorFromApi(e.response.data);
       });
   };
   return (

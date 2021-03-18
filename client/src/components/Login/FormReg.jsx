@@ -2,8 +2,8 @@ import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage.jsx";
 import api from "../../api";
-import { errorHandler } from "../../utills/utils";
 import UserAvatar from "../../ui/Avatar.jsx";
+import { useHandleError } from "../hooks/useHandleError.js";
 
 const Form = styled.form`
   width: 100%;
@@ -73,14 +73,10 @@ const FormReg = ({ setIsLogin }) => {
   };
 
   const [form, setForm] = useState(initForm);
-  const [error, setError] = useState(null);
+  const { error, setErrorFromApi } = useHandleError();
 
   const handleForm = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const clearError = () => {
-    setTimeout(() => setError(null), 2500);
   };
 
   const handleSubmit = (e) => {
@@ -92,15 +88,7 @@ const FormReg = ({ setIsLogin }) => {
         setForm({});
       })
       .catch((e) => {
-        const messageErr = e.response.data;
-        if (messageErr.errors) {
-          const errors = errorHandler(messageErr.errors);
-          setError(errors);
-          clearError();
-          return;
-        }
-        setError(messageErr);
-        clearError();
+        setErrorFromApi(e.response.data);
       });
   };
 
@@ -119,16 +107,7 @@ const FormReg = ({ setIsLogin }) => {
         return res.data;
       })
       .catch((e) => {
-        const messageErr = e.response.data;
-        console.log(messageErr);
-        if (messageErr.errors) {
-          const errors = errorHandler(messageErr.errors);
-          setError(errors);
-          clearError();
-          return;
-        }
-        setError(messageErr);
-        clearError();
+        setErrorFromApi(e.response.data);
       });
   }
 
@@ -166,7 +145,7 @@ const FormReg = ({ setIsLogin }) => {
         <InputValue
           value={form.password}
           onChange={handleForm}
-          type="text"
+          type="password"
           name="password"
           id="password"
           placeholder="Введите пароль"
@@ -178,7 +157,7 @@ const FormReg = ({ setIsLogin }) => {
         <InputValue
           value={form.confirm}
           onChange={handleForm}
-          type="text"
+          type="password"
           name="confirm"
           id="confirm"
           placeholder="Подтвердите пароль"
@@ -230,6 +209,7 @@ const FormReg = ({ setIsLogin }) => {
           onChange={handleUpload}
           ref={fileRef}
           type="file"
+          accept="image/*;capture=camera"
           name="foto"
           id="foto"
         />

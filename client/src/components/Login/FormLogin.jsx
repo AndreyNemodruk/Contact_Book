@@ -2,11 +2,10 @@ import React, { useState, useContext } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage.jsx";
-import { errorHandler } from "../../utills/utils";
 import api from "../../api";
-import C from "../constants/constatnts.js";
 import { useHistory } from "react-router-dom";
 import authContext from "../context/authContext";
+import { useHandleError } from "../hooks/useHandleError.js";
 
 const Form = styled.form`
   width: 100%;
@@ -56,18 +55,13 @@ const FormReg = () => {
     email: "",
     password: "",
   };
+  const { error, setErrorFromApi } = useHandleError();
   const [form, setForm] = useState(initForm);
-  const [error, setError] = useState(null);
-  const dispatch = useDispatch();
   const history = useHistory();
   const { login } = useContext(authContext);
 
   const handleForm = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const clearError = () => {
-    setTimeout(() => setError(null), 2500);
   };
 
   const handleLogin = (e) => {
@@ -79,15 +73,7 @@ const FormReg = () => {
         history.push("/contacts");
       })
       .catch((e) => {
-        const messageErr = e.response.data;
-        if (messageErr.errors) {
-          const errors = errorHandler(messageErr.errors);
-          setError(errors);
-          clearError();
-          return;
-        }
-        setError(messageErr);
-        clearError();
+        setErrorFromApi(e.response.data);
       });
   };
 
@@ -108,7 +94,7 @@ const FormReg = () => {
       <InputValue
         value={form.password}
         onChange={handleForm}
-        type="text"
+        type="password"
         name="password"
         id="password"
         placeholder="Введите пароль"

@@ -8,6 +8,12 @@ import GroupContacts from "../Contacts/GroupContacts.jsx";
 import ContactInform from "../ContactInform/ContactInorm.jsx";
 import EditUser from "../EditUser/EditUser.jsx";
 
+const Container = styled.div`
+  background: #1a1f25;
+  width: 100%;
+  height: 100%;
+`;
+
 const GridWrap = styled.div`
    {
     display: grid;
@@ -26,29 +32,31 @@ const GridWrap = styled.div`
 const PhoneBook = () => {
   const history = useHistory();
   return (
-    <GridWrap>
-      <Route>
-        <LeftBar path="/contacts" />
-      </Route>
-      <Route path="/contacts" exact>
-        <AllContacts />
-      </Route>
-      <Route path="/contacts/information/:id" exact>
-        <ContactInform />
-      </Route>
-      <Route path="/contacts/edit_contacts" exact>
-        <EditContact />
-      </Route>
-      <Route path="/contacts/edit_contacts/:id" exact>
-        <EditContact />
-      </Route>
-      <Route path="/contacts/group/:id" exact>
-        <GroupContacts />
-      </Route>
-      <Route path="/contacts/edit_user" exact>
-        <EditUser />
-      </Route>
-    </GridWrap>
+    <Container>
+      <GridWrap>
+        <Route>
+          <LeftBar path="/contacts" />
+        </Route>
+        <Route path="/contacts" exact>
+          <AllContacts />
+        </Route>
+        <Route path="/contacts/information/:id" exact>
+          <ContactInform />
+        </Route>
+        <Route path="/contacts/edit_contacts" exact>
+          <EditContact />
+        </Route>
+        <Route path="/contacts/edit_contacts/:id" exact>
+          <EditContact />
+        </Route>
+        <Route path="/contacts/group/:id" exact>
+          <GroupContacts />
+        </Route>
+        <Route path="/contacts/edit_user" exact>
+          <EditUser />
+        </Route>
+      </GridWrap>
+    </Container>
   );
 };
 
