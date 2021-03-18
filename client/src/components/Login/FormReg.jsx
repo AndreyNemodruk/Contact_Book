@@ -209,7 +209,8 @@ const FormReg = ({ setIsLogin }) => {
           onChange={handleUpload}
           ref={fileRef}
           type="file"
-          accept="image/*;capture=camera"
+          accept="image/*"
+          capture="camera"
           name="foto"
           id="foto"
         />
