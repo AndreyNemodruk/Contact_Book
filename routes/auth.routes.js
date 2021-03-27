@@ -133,8 +133,6 @@ router.post(
         });
       }
       const { phone, firstName, secondName, file, userId, email } = req.body;
-      //const updatableUser = await User.findById(userId);
-      //const data = { ...updatableUser, phone, firstName, secondName, file };
       const updatedUser = await User.findByIdAndUpdate(
         { _id: userId },
         { phone, firstName, secondName, file, email }

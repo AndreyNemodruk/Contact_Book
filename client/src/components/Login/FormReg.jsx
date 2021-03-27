@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage.jsx";
 import api from "../../api";
@@ -74,10 +74,19 @@ const FormReg = ({ setIsLogin }) => {
 
   const [form, setForm] = useState(initForm);
   const { error, setErrorFromApi } = useHandleError();
+  const [staticError, setStaticError] = useState();
 
   const handleForm = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+
+  useEffect(() => {
+    if (form.password !== form.confirm) {
+      setStaticError("Пароли несовпадают");
+    } else {
+      setStaticError("");
+    }
+  }, [form.password, form.confirm]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -114,7 +123,7 @@ const FormReg = ({ setIsLogin }) => {
   return (
     <Form onSubmit={(e) => handleSubmit(e)}>
       <Error>
-        <ErrorMessage error={error?.message} />
+        <ErrorMessage error={error?.message || staticError} />
       </Error>
       <div>
         <Label htmlFor="email">Email:</Label>
