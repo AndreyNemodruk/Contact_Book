@@ -11,7 +11,7 @@ const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
 
 const LIMIT_FILE_TYPES = "LIMIT_FILE_TYPES";
 const LIMIT_FILE_SIZE = "LIMIT_FILE_SIZE";
-const MAX_SIZE = 400000;
+const MAX_SIZE = 3000000;
 
 const code = shortId.generate();
 
@@ -49,7 +49,7 @@ function errorMiddleware(error, req, res, next) {
   }
   if (error.code === LIMIT_FILE_SIZE) {
     res.status(422).json({
-      error: `Размер файла не должен превышать ${MAX_SIZE / 1000} kB`,
+      error: `Размер файла не должен превышать ${MAX_SIZE / 1000000} Mb`,
     });
     return;
   }

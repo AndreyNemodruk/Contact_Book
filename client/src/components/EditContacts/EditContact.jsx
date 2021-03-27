@@ -8,6 +8,7 @@ import { useHistory, useLocation, useParams } from "react-router-dom";
 import C from "../constants/constatnts";
 import { ButtonClose } from "../ui/ui";
 import { useHandleError } from "../hooks/useHandleError.js";
+import { ErrorMessage } from "../ErrorMessage/ErrorMessage.jsx";
 
 const Main = styled.div`
   grid-area: main;
@@ -98,12 +99,8 @@ const LabelForm = styled.label`
   line-height: 1;
 `;
 const LabelFormRight = styled(LabelForm)`
-  text-align: right;
-  margin-bottom: 31px;
-`;
-const LabelFormRightMargin = styled(LabelForm)`
-  text-align: right;
-  margin-bottom: 111px;
+  justify-self: end;
+  margin-top: 8px;
 `;
 
 const FormInput = styled.input`
@@ -120,10 +117,6 @@ const FormInput = styled.input`
 
 const InputImage = styled.input`
   display: none;
-`;
-
-const FormInputWithMargin = styled(FormInput)`
-  margin-bottom: 16px;
 `;
 
 const InputTextAria = styled.textarea`
@@ -143,13 +136,6 @@ const InputTextAriaInformation = styled(InputTextAria)`
   height: 104px;
 `;
 
-const ContactDataWrap = styled.div`
-  grid-column: 2 / 3;
-  grid-row: 2 / 2;
-  padding-top: 48px;
-  padding-left: 32px;
-`;
-
 const InputWrapLeft = styled.div`
   margin-left: 20px;
 `;
@@ -159,9 +145,18 @@ const InputWrapRight = styled.div`
 const WrapDescription = styled.div`
   grid-column: 1/3;
 `;
-const WrapLabel = styled.div`
-  grid-column: 1 / 2;
-  padding-top: 54px;
+
+const WrapSecondInfo = styled.div`
+  grid-column: 1/3;
+  display: grid;
+  grid-template-columns: 151px 1fr;
+  column-gap: 32px;
+  margin-top: 48px;
+  height: 100px;
+`;
+
+const FormInputWrap = styled.div`
+  padding-bottom: 10px;
 `;
 
 const EditContact = () => {
@@ -169,7 +164,7 @@ const EditContact = () => {
   const dispatch = useDispatch();
   const contacts = useSelector((state) => state.contacts.allContacts);
   const editedContact = contacts.find((item) => item._id === id);
-  const fakeImg = "http://contactbook.fun/api/img/avatarka.jpg";
+  const fakeImg = "../../images/avatarka.jpg";
   const initState = {
     name: "",
     surName: "",
@@ -298,25 +293,31 @@ const EditContact = () => {
           <UserInfoWrap>
             <InputWrapRight>
               <LabelForm htmlFor="name">Name</LabelForm>
-              <FormInput
-                type="text"
-                id="name"
-                onChange={handleForm}
-                name="name"
-                placeholder="Enter name"
-                value={form?.name}
-              />
+              <div>
+                <FormInput
+                  type="text"
+                  id="name"
+                  onChange={handleForm}
+                  name="name"
+                  placeholder="Enter name"
+                  value={form?.name}
+                />
+                <ErrorMessage error={error?.name} />
+              </div>
             </InputWrapRight>
             <InputWrapLeft>
               <LabelForm htmlFor="surName">Surname</LabelForm>
-              <FormInput
-                type="text"
-                id="surName"
-                placeholder="Enter surname"
-                onChange={handleForm}
-                value={form?.surName}
-                name="surName"
-              />
+              <div>
+                <FormInput
+                  type="text"
+                  id="surName"
+                  placeholder="Enter surname"
+                  onChange={handleForm}
+                  value={form?.surName}
+                  name="surName"
+                />
+                <ErrorMessage error={error?.surName} />
+              </div>
             </InputWrapLeft>
             <WrapDescription>
               <LabelForm htmlFor="description">Description</LabelForm>
@@ -330,7 +331,79 @@ const EditContact = () => {
               />
             </WrapDescription>
           </UserInfoWrap>
-          <WrapLabel>
+          <WrapSecondInfo>
+            <LabelFormRight htmlFor="phone">Phone</LabelFormRight>
+            <FormInputWrap>
+              <FormInput
+                type="text"
+                id="phone"
+                name="phone"
+                placeholder="Enter phone +38----------"
+                onChange={handleForm}
+                value={form?.phone}
+              />
+              <ErrorMessage error={error?.phone} />
+            </FormInputWrap>
+            <LabelFormRight htmlFor="email">Email</LabelFormRight>
+            <FormInputWrap>
+              <FormInput
+                type="text"
+                id="email"
+                name="email"
+                placeholder="Enter email"
+                onChange={handleForm}
+                value={form?.email}
+              />
+              <ErrorMessage error={error?.email} />
+            </FormInputWrap>
+
+            <LabelFormRight htmlFor="birthday">Birthday</LabelFormRight>
+            <FormInputWrap>
+              <FormInput
+                type="text"
+                id="birthday"
+                name="birthday"
+                placeholder="Enter date birthday DD/MM/YYYY"
+                onChange={handleForm}
+                value={form?.birthday}
+              />
+              <ErrorMessage error={error?.birthday} />
+            </FormInputWrap>
+            <LabelFormRight htmlFor="information">Information</LabelFormRight>
+            <InputTextAriaInformation
+              type="text"
+              id="information"
+              name="information"
+              placeholder="Enter information contact"
+              onChange={handleForm}
+              value={form?.information}
+            />
+            <LabelFormRight htmlFor="instagram">Instagram</LabelFormRight>
+            <FormInputWrap>
+              <FormInput
+                type="text"
+                id="instagram"
+                name="instagram"
+                placeholder="Enter user name instagramm"
+                onChange={handleForm}
+                value={form?.instagram}
+              />
+              <ErrorMessage error={error?.instagram} />
+            </FormInputWrap>
+            <LabelFormRight htmlFor="faceBook">Facebook</LabelFormRight>
+            <FormInputWrap>
+              <FormInput
+                type="text"
+                id="faceBook"
+                name="faceBook"
+                placeholder="Enter Facebook Link"
+                onChange={handleForm}
+                value={form?.faceBook}
+              />
+              <ErrorMessage error={error?.faceBook} />
+            </FormInputWrap>
+          </WrapSecondInfo>
+          {/* <WrapLabel>
             <LabelFormRight htmlFor="phone">Phone</LabelFormRight>
             <LabelFormRight htmlFor="email">Email</LabelFormRight>
             <LabelFormRight htmlFor="birthday">Birthday</LabelFormRight>
@@ -394,7 +467,7 @@ const EditContact = () => {
               onChange={handleForm}
               value={form?.faceBook}
             />
-          </ContactDataWrap>
+          </ContactDataWrap> */}
           <BottomBlock>
             <BottomHr />
             <ButtonAdd type="submit">

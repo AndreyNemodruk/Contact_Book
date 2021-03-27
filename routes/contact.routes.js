@@ -10,9 +10,9 @@ router.post(
   "/contact_create",
   auth,
   [
-    check("phone", "Телефон указан некорректно").isMobilePhone("uk-UA"),
+    check("phone", "Телефон в формате +380....").isMobilePhone("uk-UA"),
     check("email", "Почтовый ящик указан некорректно").isEmail(),
-    check("birthday", "Дата указана некорректно").isDate({
+    check("birthday", "Дата должна быть в формате ДД/MM/ГГГГ").isDate({
       format: "DD/MM/YYYY",
     }),
     check("name", "Введите имя").isLength({ min: 2 }),
@@ -87,9 +87,9 @@ router.put(
   "/edit_contact/:id",
   auth,
   [
-    check("phone", "Телефон указан некорректно").isMobilePhone("uk-UA"),
+    check("phone", "Телефон в формате +380....").isMobilePhone("uk-UA"),
     check("email", "Почтовый ящик указан некорректно").isEmail(),
-    check("birthday", "Дата указана некорректно").isDate({
+    check("birthday", "Дата должна быть в формате ДД/MM/ГГГГ").isDate({
       format: "DD/MM/YYYY",
     }),
     check("name", "Введите имя").isLength({ min: 2 }),
