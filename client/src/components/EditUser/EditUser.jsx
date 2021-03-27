@@ -8,6 +8,7 @@ import { useHistory, useLocation, useParams } from "react-router-dom";
 import C from "../constants/constatnts";
 import { ButtonClose } from "../ui/ui";
 import { useHandleError } from "../hooks/useHandleError.js";
+import { ErrorMessage } from "../ErrorMessage/ErrorMessage.jsx";
 
 const Main = styled.div`
   grid-area: main;
@@ -63,12 +64,8 @@ const ButtonCancel = styled(ButtonAdd)`
 const Form = styled.form`
   height: 100%;
   display: grid;
-  grid-template-rows: 210px 1fr 57px;
+  grid-template-rows: 1fr 57px;
   grid-template-columns: 151px 1fr;
-  grid-template-areas:
-    "1" "2"
-    "3" "3"
-    "4" "4";
   position: relative;
 `;
 
@@ -82,7 +79,6 @@ const UserInfoWrap = styled.div`
   padding: 100px 0 0 32px;
   width: 100%;
   height: 100%;
-  display: grid;
 `;
 
 const LabelForm = styled.label`
@@ -92,10 +88,6 @@ const LabelForm = styled.label`
   display: block;
   margin-bottom: 8px;
   line-height: 1;
-`;
-const LabelFormRight = styled(LabelForm)`
-  text-align: right;
-  margin-bottom: 41px;
 `;
 
 const FormInput = styled.input`
@@ -115,20 +107,8 @@ const InputImage = styled.input`
   display: none;
 `;
 
-const FormInputWithMargin = styled(FormInput)`
-  margin-bottom: 25px;
-`;
-
-const ContactDataWrap = styled.div`
-  grid-column: 2 / 3;
-  grid-row: 2 / 2;
-  padding-top: 80px;
-  padding-left: 32px;
-`;
-
-const WrapLabel = styled.div`
-  grid-column: 1 / 2;
-  padding-top: 86px;
+const InputWrap = styled.div`
+  padding-bottom: 15px;
 `;
 
 const EditContact = () => {
@@ -222,8 +202,8 @@ const EditContact = () => {
             />
           </WrapAvatar>
           <UserInfoWrap>
-            <div>
-              <LabelForm htmlFor="firstName">Name</LabelForm>
+            <LabelForm htmlFor="firstName">Name</LabelForm>
+            <InputWrap>
               <FormInput
                 type="text"
                 id="firstName"
@@ -232,9 +212,11 @@ const EditContact = () => {
                 placeholder="Enter name"
                 value={form?.firstName}
               />
-            </div>
-            <div style={{ paddingTop: "20px" }}>
-              <LabelForm htmlFor="secondName">Surname</LabelForm>
+              <ErrorMessage error={error?.firstName} />
+            </InputWrap>
+
+            <LabelForm htmlFor="secondName">Surname</LabelForm>
+            <InputWrap>
               <FormInput
                 type="text"
                 id="secondName"
@@ -243,31 +225,33 @@ const EditContact = () => {
                 value={form?.secondName}
                 name="secondName"
               />
-            </div>
+              <ErrorMessage error={error?.secondName} />
+            </InputWrap>
+            <LabelForm htmlFor="phone">Phone</LabelForm>
+            <InputWrap>
+              <FormInput
+                type="text"
+                id="phone"
+                name="phone"
+                placeholder="Enter phone +38----------"
+                onChange={handleForm}
+                value={form?.phone}
+              />
+              <ErrorMessage error={error?.phone} />
+            </InputWrap>
+            <LabelForm htmlFor="email">Email</LabelForm>
+            <InputWrap>
+              <FormInput
+                type="text"
+                id="email"
+                name="email"
+                placeholder="Enter email"
+                onChange={handleForm}
+                value={form?.email}
+              />
+              <ErrorMessage error={error?.email} />
+            </InputWrap>
           </UserInfoWrap>
-          <WrapLabel>
-            <LabelFormRight htmlFor="phone">Phone</LabelFormRight>
-            <LabelFormRight htmlFor="email">Email</LabelFormRight>
-          </WrapLabel>
-          <ContactDataWrap>
-            <FormInputWithMargin
-              type="text"
-              id="phone"
-              name="phone"
-              placeholder="Enter phone +38----------"
-              onChange={handleForm}
-              value={form?.phone}
-            />
-
-            <FormInputWithMargin
-              type="text"
-              id="email"
-              name="email"
-              placeholder="Enter email"
-              onChange={handleForm}
-              value={form?.email}
-            />
-          </ContactDataWrap>
           <BottomBlock>
             <BottomHr />
             <ButtonAdd type="submit">Save Changes</ButtonAdd>

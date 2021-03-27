@@ -68,7 +68,11 @@ const Contact = ({ contact, sizeGroup }) => {
   }, []);
   return (
     <ContactWrap sizeGroup={sizeGroup}>
-      <UserAvatar src={contact.url} sizing={sizeGroup ? "77px" : ""} />
+      <UserAvatar
+        alt={`foto ${contact.name} ${contact.surName}`}
+        src={contact.url}
+        sizing={sizeGroup ? "77px" : ""}
+      />
       <div style={{ gridColumn: "1 2", marginLeft: "12px" }}>
         <ContactName to={`/contacts/information/${contact._id}`}>
           {`${contact.name} ${contact.surName}`}

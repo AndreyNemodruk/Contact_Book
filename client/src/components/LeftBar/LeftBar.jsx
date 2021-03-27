@@ -215,7 +215,10 @@ const LeftBar = () => {
     <SideBarWrap>
       <HeadlineBar>Contact Book</HeadlineBar>
       <BlockUser>
-        <UserAvatar src={user.file} />
+        <UserAvatar
+          src={user.file}
+          alt={`foto ${user.firstName} ${user.secondName}`}
+        />
         <UserInfo>
           <UserName>{`${user.firstName} ${user.secondName}`}</UserName>
           <ButtonLogOut onClick={unLog}>Log out</ButtonLogOut>

@@ -280,7 +280,11 @@ const EditContact = () => {
           </ButtonClose>
           <WrapAvatar>
             <label htmlFor="url">
-              <UserAvatar sizing="151px" src={form?.url} />
+              <UserAvatar
+                sizing="151px"
+                src={form?.url}
+                alt={`foto edit contact`}
+              />
             </label>
             <InputImage
               type="file"
@@ -403,71 +407,6 @@ const EditContact = () => {
               <ErrorMessage error={error?.faceBook} />
             </FormInputWrap>
           </WrapSecondInfo>
-          {/* <WrapLabel>
-            <LabelFormRight htmlFor="phone">Phone</LabelFormRight>
-            <LabelFormRight htmlFor="email">Email</LabelFormRight>
-            <LabelFormRight htmlFor="birthday">Birthday</LabelFormRight>
-            <LabelFormRightMargin htmlFor="information">
-              Information
-            </LabelFormRightMargin>
-            <LabelFormRight htmlFor="instagram">Instagram</LabelFormRight>
-            <LabelFormRight htmlFor="faceBook">Facebook</LabelFormRight>
-          </WrapLabel>
-          <ContactDataWrap>
-            <FormInputWithMargin
-              type="text"
-              id="phone"
-              name="phone"
-              placeholder="Enter phone +38----------"
-              onChange={handleForm}
-              value={form?.phone}
-            />
-
-            <FormInputWithMargin
-              type="text"
-              id="email"
-              name="email"
-              placeholder="Enter email"
-              onChange={handleForm}
-              value={form?.email}
-            />
-
-            <FormInputWithMargin
-              type="text"
-              id="birthday"
-              name="birthday"
-              placeholder="Enter date birthday DD/MM/YYYY"
-              onChange={handleForm}
-              value={form?.birthday}
-            />
-
-            <InputTextAriaInformation
-              type="text"
-              id="information"
-              name="information"
-              placeholder="Enter information contact"
-              onChange={handleForm}
-              value={form?.information}
-            />
-
-            <FormInputWithMargin
-              type="text"
-              id="instagram"
-              name="instagram"
-              placeholder="Enter user name instagramm"
-              onChange={handleForm}
-              value={form?.instagram}
-            />
-
-            <FormInputWithMargin
-              type="text"
-              id="faceBook"
-              name="faceBook"
-              placeholder="Enter Facebook Link"
-              onChange={handleForm}
-              value={form?.faceBook}
-            />
-          </ContactDataWrap> */}
           <BottomBlock>
             <BottomHr />
             <ButtonAdd type="submit">
