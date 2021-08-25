@@ -64,7 +64,7 @@ const InputValue = styled.input`
 `;
 
 const FormReg = ({ setIsLogin }) => {
-  const fakeImg = { fakeAva };
+  const fakeImg = fakeAva;
   const initForm = {
     email: '',
     password: '',

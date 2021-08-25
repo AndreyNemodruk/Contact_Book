@@ -183,7 +183,7 @@ const EditContact = () => {
   const dispatch = useDispatch();
   const contacts = useSelector((state) => state.contacts.allContacts);
   const editedContact = contacts.find((item) => item._id === id);
-  const fakeImg = { fakeAva };
+  const fakeImg = fakeAva;
   const initState = {
     name: '',
     surName: '',
