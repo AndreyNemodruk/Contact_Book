@@ -6,6 +6,7 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import api from '../../api';
 import UserAvatar from '../../ui/Avatar';
 import useHandleError from '../hooks/useHandleError';
+import fakeAva from '../../images/avatarka.jpg';
 
 const Form = styled.form`
   width: 100%;
@@ -63,7 +64,7 @@ const InputValue = styled.input`
 `;
 
 const FormReg = ({ setIsLogin }) => {
-  const fakeImg = '../../images/avatarka.jpg';
+  const fakeImg = { fakeAva };
   const initForm = {
     email: '',
     password: '',

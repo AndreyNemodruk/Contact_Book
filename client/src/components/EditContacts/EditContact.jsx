@@ -18,6 +18,7 @@ import useHandleError from '../hooks/useHandleError';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import { BottomHr, ButtonAdd } from '../ui/uiAllContact';
 import breakpoint from '../constants/breakpoints';
+import fakeAva from '../../images/avatarka.jpg';
 
 const Main = styled.div`
   grid-area: main;
@@ -182,7 +183,7 @@ const EditContact = () => {
   const dispatch = useDispatch();
   const contacts = useSelector((state) => state.contacts.allContacts);
   const editedContact = contacts.find((item) => item._id === id);
-  const fakeImg = '../../images/avatarka.jpg';
+  const fakeImg = { fakeAva };
   const initState = {
     name: '',
     surName: '',
