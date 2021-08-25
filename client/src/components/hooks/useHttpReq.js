@@ -1,5 +1,5 @@
-import axios from "axios";
-import { useState, useCallback, useEffect } from "react";
+import axios from 'axios';
+import { useState, useCallback, useEffect } from 'react';
 
 export const useHttp = (reqData) => {
   const [loading, setLoading] = useState(false);

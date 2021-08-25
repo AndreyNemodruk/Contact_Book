@@ -1,5 +1,6 @@
-import React from "react";
-import styled from "styled-components";
+/* eslint-disable react/prop-types */
+import React from 'react';
+import styled from 'styled-components';
 
 const Message = styled.p`
   color: coral;
@@ -8,11 +9,10 @@ const Message = styled.p`
   padding: 0;
   margin: 0;
 `;
+const ErrorMessage = ({ error }) => (
+  <div>
+    <Message>{error || ''}</Message>
+  </div>
+);
 
-export const ErrorMessage = ({ error }) => {
-  return (
-    <div>
-      <Message>{error || ""}</Message>
-    </div>
-  );
-};
+export default ErrorMessage;

@@ -1,10 +1,14 @@
-import React, { useRef, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { DropMenuItemButton, DropMenuItem } from "../ui/ui";
-import api from "../../api";
-import C from "../constants/constatnts";
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-undef */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable react/prop-types */
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { DropMenuItemButton, DropMenuItem } from '../ui/ui';
+import api from '../../api';
+import C from '../constants/constatnts';
 
-export const ItemAddCategory = ({ item, contact, toggle }) => {
+const ItemAddCategory = ({ item, contact, toggle }) => {
   const contacts = useSelector((state) => state.contacts.allContacts);
   const dispatch = useDispatch();
 
@@ -16,25 +20,23 @@ export const ItemAddCategory = ({ item, contact, toggle }) => {
     const updateContact = {
       ...contact,
       category: [...contact.category, item._id],
-      birthday: contact.birthday.split("T")[0].split("-").reverse().join("/"),
+      birthday: contact.birthday.split('T')[0].split('-').reverse().join('/'),
     };
     api.contacts
       .update(updateContact)
       .then((res) => {
-        const updatedContacts = contacts.map((item) => {
-          if (item._id === res.data._id) {
+        const updatedContacts = contacts.map((i) => {
+          if (i._id === res.data._id) {
             return res.data;
           }
-          return item;
+          return i;
         });
         dispatch({ type: C.SET_ALL_CONTACTS, payload: updatedContacts });
         toggle();
-        return;
       })
       .catch((e) => {
         if (e.response.status === 401) {
-          history.push("/");
-          return;
+          history.push('/');
         }
       });
   };
@@ -46,3 +48,5 @@ export const ItemAddCategory = ({ item, contact, toggle }) => {
     </DropMenuItem>
   );
 };
+
+export default ItemAddCategory;

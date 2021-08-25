@@ -1,10 +1,10 @@
-import { createContext } from "react";
+import { createContext } from 'react';
 
 const authContext = createContext({
   token: null,
   userId: null,
-  login: "",
-  logOut: "",
+  login: '',
+  logOut: '',
   isAuth: false,
   user: null,
 });

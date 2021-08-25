@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect } from "react";
+import { useRef, useLayoutEffect } from 'react';
 
 const useMounted = () => {
   const mountedRef = useRef();

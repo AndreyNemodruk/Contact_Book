@@ -1,4 +1,4 @@
 {
-  "extends": ["airbnb", "airbnb/hooks", "eslint:recommended"],
-  "plugins": ["class-property", "plugin:react-hooks/recommended"]
+  "extends": ["airbnb", "airbnb/hooks"],
+  "parser": "babel-eslint"
 }

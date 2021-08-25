@@ -1,18 +1,27 @@
-import React, { useRef, useEffect, useState } from "react";
+/* eslint-disable implicit-arrow-linebreak */
+/* eslint-disable indent */
+/* eslint-disable no-confusing-arrow */
+/* eslint-disable comma-dangle */
+/* eslint-disable object-curly-newline */
+/* eslint-disable react/prop-types */
+/* eslint-disable no-undef */
+/* eslint-disable no-underscore-dangle */
+import React, { useRef, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import styled from 'styled-components';
 import {
   DropMenuItemButton,
   DropMenuItem,
   DropMenu,
   InputGroup,
   LabelGroup,
-} from "../ui/ui";
-import { ItemAddCategory } from "./ItemAddCategory.jsx";
-import api from "../../api";
-import { useSelector, useDispatch } from "react-redux";
-import C from "../constants/constatnts";
-import { useHistory } from "react-router-dom";
-import styled from "styled-components";
-import Icons from "../img/icons.jsx";
+} from '../ui/ui';
+import ItemAddCategory from './ItemAddCategory';
+import api from '../../api';
+import C from '../constants/constatnts';
+
+import Icons from '../img/icons';
 
 const ButtonIcon = styled.div`
    {
@@ -25,7 +34,7 @@ const ButtonIcon = styled.div`
     z-index: 20;
     justify-content: center;
     transform: ${(props) =>
-      props.showDropMenu ? "rotate(180deg) translateY(3px)" : ""};
+      props.showDropMenu ? 'rotate(180deg) translateY(3px)' : ''};
   }
 `;
 
@@ -39,30 +48,30 @@ const DropItemMenu = styled(DropMenu)`
   left: ${(props) => props.clientX - 150}px;
 `;
 
-export const ContactMenu = ({ toggle, contact, clientX, clientY }) => {
+const ContactMenu = ({ toggle, contact, clientX, clientY }) => {
   const history = useHistory();
   const elRef = useRef(null);
   const contacts = useSelector((state) => state.contacts.allContacts);
   const categories = useSelector((state) => state.categories.categories);
   const dispatch = useDispatch();
   const [showCreateGroup, setShowCreateGroup] = useState(false);
-  const [addedGroup, setAddedGroup] = useState({ groupName: "" });
+  const [addedGroup, setAddedGroup] = useState({ groupName: '' });
   const [showDropMenu, setShowDropMenu] = useState(false);
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("scroll", toggle);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.addEventListener("scroll", toggle);
-    };
-  });
 
   const handleClickOutside = (event) => {
     if (elRef && !elRef.current.contains(event.target)) {
       toggle();
     }
   };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('scroll', toggle);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.addEventListener('scroll', toggle);
+    };
+  });
 
   const handleDelete = () => {
     api.contacts
@@ -73,12 +82,10 @@ export const ContactMenu = ({ toggle, contact, clientX, clientY }) => {
         );
         dispatch({ type: C.SET_ALL_CONTACTS, payload: filterContacts });
         toggle();
-        return;
       })
       .catch((e) => {
         if (e.response.status === 401) {
-          history.push("/");
-          return;
+          history.push('/');
         }
       });
   };
@@ -89,7 +96,7 @@ export const ContactMenu = ({ toggle, contact, clientX, clientY }) => {
 
   const handleShowCreateGroup = () => {
     setShowDropMenu(false);
-    setShowCreateGroup((showCreateGroup) => !showCreateGroup);
+    setShowCreateGroup((prev) => !prev);
   };
 
   const handleChangeGroupName = (e) => {
@@ -102,7 +109,7 @@ export const ContactMenu = ({ toggle, contact, clientX, clientY }) => {
   };
 
   const handleCreateGroup = (e) => {
-    if (e.keyCode == 27) {
+    if (e.keyCode === 27) {
       toggle();
       return;
     }
@@ -113,14 +120,12 @@ export const ContactMenu = ({ toggle, contact, clientX, clientY }) => {
       .create(addedGroup)
       .then((res) => {
         dispatch({ type: C.ADD_CATEGORY, payload: res.data });
-        res.data.groups;
         toggle();
       })
-      .catch((e) => {
+      .catch((error) => {
         toggle();
-        if (e.response.status === 401) {
-          history.push("/");
-          return;
+        if (error.response.status === 401) {
+          history.push('/');
         }
       });
   };
@@ -165,19 +170,19 @@ export const ContactMenu = ({ toggle, contact, clientX, clientY }) => {
         </DropMenuItemButton>
         {showDropMenu && (
           <DropMenuAddCategory>
-            {categories.map((item) => {
-              return (
-                <ItemAddCategory
-                  key={item._id}
-                  item={item}
-                  contact={contact}
-                  toggle={toggle}
-                />
-              );
-            })}
+            {categories.map((item) => (
+              <ItemAddCategory
+                key={item._id}
+                item={item}
+                contact={contact}
+                toggle={toggle}
+              />
+            ))}
           </DropMenuAddCategory>
         )}
       </DropMenuItem>
     </DropItemMenu>
   );
 };
+
+export default ContactMenu;

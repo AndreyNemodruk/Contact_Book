@@ -1,23 +1,33 @@
-import React, { useState, useRef, useEffect } from "react";
-import { AppBar } from "../AppBar/AppBar.jsx";
-import styled from "styled-components";
-import UserAvatar from "../../ui/Avatar.jsx";
-import api from "../../api";
-import { useSelector, useDispatch } from "react-redux";
-import { useHistory, useLocation, useParams } from "react-router-dom";
-import C from "../constants/constatnts";
-import { ButtonClose } from "../ui/ui";
-import { useHandleError } from "../hooks/useHandleError.js";
-import { ErrorMessage } from "../ErrorMessage/ErrorMessage.jsx";
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+/* eslint-disable function-paren-newline */
+/* eslint-disable implicit-arrow-linebreak */
+/* eslint-disable comma-dangle */
+/* eslint-disable no-underscore-dangle */
+import React, { useState, useRef, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import AppBar from '../AppBar/AppBar';
+import UserAvatar from '../../ui/Avatar';
+import api from '../../api';
+import C from '../constants/constatnts';
+import { ButtonClose } from '../ui/ui';
+import useHandleError from '../hooks/useHandleError';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import { BottomHr, ButtonAdd } from '../ui/uiAllContact';
+import breakpoint from '../constants/breakpoints';
 
 const Main = styled.div`
   grid-area: main;
   display: grid;
   grid-template-rows: 73px 1fr;
   grid-template-areas:
-    "appbar"
-    "main";
+    'appbar'
+    'main';
   position: relative;
+  height: 100%;
 `;
 
 const Content = styled.div`
@@ -34,25 +44,7 @@ const BottomBlock = styled.div`
   grid-template-columns: 1fr 183px 183px;
   grid-column-gap: 32px;
 `;
-const BottomHr = styled.div`
-  width: 100%;
-  position: relative;
-  border-top: 1px solid #9699a5;
-  grid-column: 1 / 2;
-`;
 
-const ButtonAdd = styled.button`
-  background-color: #0fb0df;
-  width: 182px;
-  height: 46px;
-  border-radius: 30px;
-  outline: none;
-  border: none;
-  cursor: pointer;
-  position: relative;
-  bottom: 23px;
-  grid-column: 2 / 3;
-`;
 const ButtonCancel = styled(ButtonAdd)`
   color: #00b3e4;
   background-color: white;
@@ -63,12 +55,16 @@ const ButtonCancel = styled(ButtonAdd)`
 const Form = styled.form`
   height: 100%;
   display: grid;
-  grid-template-rows: 210px 1fr 57px;
-  grid-template-columns: 151px 1fr;
+  grid-template-rows: auto 1fr 57px;
+  grid-template-columns: 125px 1fr;
+  @media ${breakpoint.device.lg} {
+    grid-template-rows: 210px 1fr 57px;
+    grid-template-columns: 151px 1fr;
+  }
   grid-template-areas:
-    "1" "2"
-    "3" "3"
-    "4" "4";
+    '1' '2'
+    '3' '3'
+    '4' '4';
   position: relative;
 `;
 
@@ -82,12 +78,15 @@ const UserInfoWrap = styled.div`
   padding: 58px 0 0 32px;
   width: 100%;
   height: 100%;
-  display: grid;
+  display: block;
+  @media ${breakpoint.device.lg} {
+    display: grid;
+  }
   grid-template-rows: 75px 87px;
   grid-template-columns: 50% 50%;
   grid-template-areas:
-    "1" "2"
-    "3" "3";
+    '1' '2'
+    '3' '3';
 `;
 
 const LabelForm = styled.label`
@@ -137,10 +136,14 @@ const InputTextAriaInformation = styled(InputTextAria)`
 `;
 
 const InputWrapLeft = styled.div`
-  margin-left: 20px;
+  @media ${breakpoint.device.lg} {
+    margin-left: 20px;
+  }
 `;
 const InputWrapRight = styled.div`
-  margin-right: 20px;
+  @media ${breakpoint.device.lg} {
+    margin-right: 20px;
+  }
 `;
 const WrapDescription = styled.div`
   grid-column: 1/3;
@@ -149,9 +152,15 @@ const WrapDescription = styled.div`
 const WrapSecondInfo = styled.div`
   grid-column: 1/3;
   display: grid;
-  grid-template-columns: 151px 1fr;
+  @media ${breakpoint.device.lg} {
+    grid-template-columns: 151px 1fr;
+  }
+  grid-template-columns: 125px 1fr;
   column-gap: 32px;
-  margin-top: 48px;
+
+  @media ${breakpoint.device.lg} {
+    margin-top: 48px;
+  }
   height: 100px;
 `;
 
@@ -159,23 +168,32 @@ const FormInputWrap = styled.div`
   padding-bottom: 10px;
 `;
 
+const UserFoto = styled(UserAvatar)`
+  @media ${breakpoint.device.lg} {
+    width: 151px;
+    height: 151px;
+  }
+  width: 120px;
+  height: 120px;
+`;
+
 const EditContact = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const contacts = useSelector((state) => state.contacts.allContacts);
   const editedContact = contacts.find((item) => item._id === id);
-  const fakeImg = "../../images/avatarka.jpg";
+  const fakeImg = '../../images/avatarka.jpg';
   const initState = {
-    name: "",
-    surName: "",
-    phone: "",
-    birthday: "",
-    faceBook: "",
-    instagram: "",
-    description: "",
-    information: "",
+    name: '',
+    surName: '',
+    phone: '',
+    birthday: '',
+    faceBook: '',
+    instagram: '',
+    description: '',
+    information: '',
     url: fakeImg,
-    email: "",
+    email: '',
     category: [],
   };
 
@@ -188,7 +206,7 @@ const EditContact = () => {
     if (id) {
       setForm({ ...editedContact, birthday: editedContact?.dateString });
     }
-  }, [editedContact]);
+  }, [editedContact, id]);
 
   const handleForm = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -216,14 +234,12 @@ const EditContact = () => {
         });
 
         dispatch({ type: C.SET_ALL_CONTACTS, payload: updatedContacts });
-        dispatch({ type: C.SELECT_CAT, payload: "allContacts" });
-        history.push("/contacts");
-        return;
+        dispatch({ type: C.SELECT_CAT, payload: 'allContacts' });
+        history.push('/contacts');
       })
-      .catch((e) => {
-        if (e.response.status === 401) {
-          history.push("/");
-          return;
+      .catch((err) => {
+        if (err.response.status === 401) {
+          history.push('/');
         }
         setErrorFromApi(e.response.data);
       });
@@ -236,13 +252,12 @@ const EditContact = () => {
       .create(form)
       .then((res) => {
         dispatch({ type: C.SET_ALL_CONTACTS, payload: res.contacts });
-        dispatch({ type: C.SELECT_CAT, payload: "allContacts" });
-        history.push("/contacts");
-        return;
+        dispatch({ type: C.SELECT_CAT, payload: 'allContacts' });
+        history.push('/contacts');
       })
-      .catch((e) => {
-        if (e.response.status === 401) {
-          history.push("/");
+      .catch((err) => {
+        if (err.response.status === 401) {
+          history.push('/');
           return;
         }
         setErrorFromApi(e.response.data);
@@ -254,7 +269,7 @@ const EditContact = () => {
     const file = fileRef.current.files && fileRef.current.files[0];
     if (!file) return;
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append('file', file);
 
     api.image
       .upload(formData)
@@ -264,7 +279,7 @@ const EditContact = () => {
       })
       .catch((e) => {
         if (e.response.status === 401) {
-          history.push("/");
+          history.push('/');
           return;
         }
         setErrorFromApi(e.response.data);
@@ -272,19 +287,15 @@ const EditContact = () => {
   };
   return (
     <Main>
-      <AppBar header={id ? "Edit Contact" : "Add New Contact"} />
+      <AppBar header={id ? 'Edit Contact' : 'Add New Contact'} />
       <Content>
         <Form onSubmit={id ? updateContact : createContact}>
-          <ButtonClose type="button" onClick={() => history.push("/contacts")}>
+          <ButtonClose type="button" onClick={() => history.push('/contacts')}>
             X
           </ButtonClose>
           <WrapAvatar>
             <label htmlFor="url">
-              <UserAvatar
-                sizing="151px"
-                src={form?.url}
-                alt={`foto edit contact`}
-              />
+              <UserFoto src={form?.url} alt="foto edit contact" />
             </label>
             <InputImage
               type="file"
@@ -325,14 +336,17 @@ const EditContact = () => {
             </InputWrapLeft>
             <WrapDescription>
               <LabelForm htmlFor="description">Description</LabelForm>
-              <InputTextAria
-                type="text"
-                placeholder="Enter description contact"
-                id="description"
-                name="description"
-                onChange={handleForm}
-                value={form?.description}
-              />
+              <div>
+                <InputTextAria
+                  type="text"
+                  placeholder="Enter description contact"
+                  id="description"
+                  name="description"
+                  onChange={handleForm}
+                  value={form?.description}
+                />
+                <ErrorMessage error={error?.description} />
+              </div>
             </WrapDescription>
           </UserInfoWrap>
           <WrapSecondInfo>
@@ -410,11 +424,11 @@ const EditContact = () => {
           <BottomBlock>
             <BottomHr />
             <ButtonAdd type="submit">
-              {id ? "Save Changes" : "Add new contact"}
+              {id ? 'Save Changes' : 'Add new contact'}
             </ButtonAdd>
             <ButtonCancel
               type="button"
-              onClick={() => history.push("/contacts")}
+              onClick={() => history.push('/contacts')}
             >
               Cancel
             </ButtonCancel>

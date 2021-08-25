@@ -1,10 +1,11 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./src/components/App/index.jsx";
-import "./App.scss";
-import { Provider } from "react-redux";
-import { BrowserRouter as Router } from "react-router-dom";
-import store from "./src/store/store.js";
+/* eslint-disable no-undef */
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import App from './src/components/App/index';
+import './App.scss';
+import store from './src/store/store';
 
 ReactDOM.render(
   <Provider store={store}>
@@ -12,5 +13,6 @@ ReactDOM.render(
       <App />
     </Router>
   </Provider>,
-  document.getElementById("root")
+  // eslint-disable-next-line comma-dangle
+  document.getElementById('root')
 );

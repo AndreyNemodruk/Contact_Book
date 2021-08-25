@@ -1,9 +1,14 @@
-import React from "react";
-import styled from "styled-components";
-import Icons from "../img/icons.jsx";
+/* eslint-disable react/prop-types */
+import React from 'react';
+import styled from 'styled-components';
+import Icons from '../img/icons';
+import breakpoint from '../constants/breakpoints';
 
 const AppBarWrapper = styled.div`
-  padding: 27px 103px 0px 123px;
+  @media ${breakpoint.device.lg} {
+    padding: 27px 103px 0px 123px;
+  }
+  padding: 20px 50px 0px 50px;
   background-color: #ffffff;
   grid-area: appbar;
   display: flex;
@@ -14,7 +19,10 @@ const HeadLine = styled.h2`
   margin: 0;
   color: #10b1df;
   text-align: left;
-  font-size: 24px;
+  @media ${breakpoint.device.lg} {
+    font-size: 24px;
+  }
+  font-size: 20px;
 `;
 const ButtonMenu = styled.button`
   display: block;
@@ -38,20 +46,21 @@ const ButtonMenu = styled.button`
 `;
 
 const ContactName = styled.span`
-  font-size: 1.1rem;
+  font-size: 0.8em;
 `;
 
-export const AppBar = ({ header, isButton, name }) => {
-  return (
-    <AppBarWrapper>
-      <HeadLine>
-        {header} <ContactName>{name}</ContactName>
-      </HeadLine>
-      {isButton && (
-        <ButtonMenu>
-          <Icons name="MenuDots" />
-        </ButtonMenu>
-      )}
-    </AppBarWrapper>
-  );
-};
+const AppBar = ({ header, isButton, name }) => (
+  <AppBarWrapper>
+    <HeadLine>
+      {header}
+      <ContactName>{name}</ContactName>
+    </HeadLine>
+    {isButton && (
+      <ButtonMenu>
+        <Icons name="MenuDots" />
+      </ButtonMenu>
+    )}
+  </AppBarWrapper>
+);
+
+export default AppBar;

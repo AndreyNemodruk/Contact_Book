@@ -1,29 +1,32 @@
-const path = require("path");
-const HTMLWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const WebpackNotifierPlugin = require("webpack-notifier");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
-const Dotenv = require("dotenv-webpack");
-const ESLintPlugin = require("eslint-webpack-plugin");
+const path = require('path');
+const HTMLWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const WebpackNotifierPlugin = require('webpack-notifier');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
+const ESLintPlugin = require('eslint-webpack-plugin');
 //process.traceDeprecation = true;
 
 const config = {
-  mode: "development",
+  mode: 'development',
   entry: {
-    main: "./index.jsx",
+    main: './index.jsx',
   },
   output: {
-    path: path.resolve(__dirname, "dist"),
-    publicPath: "/",
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
+  },
+  resolve: {
+    extensions: ['.js', '.jsx'],
   },
   optimization: {
     splitChunks: {
-      chunks: "all",
+      chunks: 'all',
     },
-    minimize: false,
+    minimize: true,
     minimizer: [
       new CssMinimizerPlugin({
         test: /\.css$/i,
@@ -35,24 +38,24 @@ const config = {
   },
   plugins: [
     new HTMLWebpackPlugin({
-      template: "./public/index.html",
+      template: './public/index.html',
     }),
     new WebpackNotifierPlugin({ alwaysNotify: false }),
-    new ESLintPlugin({ extensions: ["js, jsx"] }),
+    new ESLintPlugin({ extensions: ['js', 'jsx'] }),
     new CleanWebpackPlugin(),
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: path.resolve(__dirname, "src/images/favicon.ico"),
-          to: path.resolve(__dirname, "dist/src/images"),
+          from: path.resolve(__dirname, 'src/images/favicon.ico'),
+          to: path.resolve(__dirname, 'dist/src/images'),
         },
       ],
     }),
     new MiniCssExtractPlugin({
-      filename: "[contenthash].css",
+      filename: '[contenthash].css',
     }),
     new Dotenv({
-      path: path.resolve(__dirname, "./.env"),
+      path: path.resolve(__dirname, './.env'),
       systemvars: true,
     }),
   ],
@@ -62,7 +65,7 @@ const config = {
         test: /\.svg$/,
         use: [
           {
-            loader: "@svgr/webpack",
+            loader: '@svgr/webpack',
             options: {
               svgoConfig: {
                 plugins: [
@@ -79,24 +82,24 @@ const config = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
-            presets: ["@babel/preset-env"],
+            presets: ['@babel/preset-env'],
           },
         },
       },
       {
         test: /\.(ttf|woff|woff2|eot)$/i,
-        loader: "file-loader",
+        loader: 'file-loader',
         options: {
-          name: "[path][name].[ext]",
+          name: '[path][name].[ext]',
         },
       },
       {
         test: /\.(png|jpg|svg|gif|webp)$/i,
-        loader: "file-loader",
+        loader: 'file-loader',
         options: {
-          name: "[path][name].[ext]",
+          name: '[path][name].[ext]',
         },
       },
       {
@@ -105,40 +108,40 @@ const config = {
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              publicPath: "",
+              publicPath: '',
             },
           },
-          "css-loader",
-          "sass-loader",
+          'css-loader',
+          'sass-loader',
         ],
       },
     ],
   },
-  devtool: "eval-source-map",
+  devtool: 'eval-source-map',
   devServer: {
     historyApiFallback: true,
-    contentBase: path.join(__dirname, "src"),
+    contentBase: path.join(__dirname, 'src'),
     hot: true,
     watchContentBase: true,
     compress: true,
     port: 8080,
-    publicPath: "/",
+    publicPath: '/',
     // progress: true,
     open: true,
     proxy: {
-      "/api": "http://localhost:5000",
+      '/api': 'http://localhost:8000',
     },
   },
 };
 
 module.exports = (env, argv) => {
-  if (argv.mode === "development") {
-    config.output.filename = "[name].js";
+  if (argv.mode === 'development') {
+    config.output.filename = '[name].js';
   }
 
-  if (argv.mode === "production") {
+  if (argv.mode === 'production') {
     config.optimization.minimize = false;
-    config.output.filename = "[contenthash].js";
+    config.output.filename = '[contenthash].js';
   }
 
   return config;

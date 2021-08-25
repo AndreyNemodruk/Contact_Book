@@ -1,5 +1,5 @@
-import React from "react";
-import styled, { keyframes } from "styled-components";
+import React from 'react';
+import styled, { keyframes } from 'styled-components';
 
 const rotate360 = keyframes`
   from {
@@ -30,12 +30,10 @@ const WrapSpinner = styled.div`
   align-items: center;
 `;
 
-export const Spinner = () => {
-  return (
-    <WrapSpinner>
-      <FullSpinner />
-    </WrapSpinner>
-  );
-};
+export const Spinner = () => (
+  <WrapSpinner>
+    <FullSpinner />
+  </WrapSpinner>
+);
 
 export default Spinner;

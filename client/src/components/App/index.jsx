@@ -1,14 +1,19 @@
-import React, { useEffect } from "react";
-import { useAuth } from "../hooks/useAuth.js";
-import { Route, useHistory } from "react-router-dom";
-import authContext from "../context/authContext.js";
-//import {useRoutes} from '../routes.jsx'
-import { useDispatch } from "react-redux";
-import C from "../constants/constatnts.js";
-import PhoneBook from "../PhoneBook/PhoneBook.jsx";
-import PrivateRoute from "../PrivateRoute.jsx";
-import Registr from "../Login/index.jsx";
-import api from "../../api.js";
+/* eslint-disable no-unused-vars */
+/* eslint-disable object-curly-newline */
+/* eslint-disable implicit-arrow-linebreak */
+/* eslint-disable operator-linebreak */
+/* eslint-disable function-paren-newline */
+/* eslint-disable comma-dangle */
+import React, { useEffect } from 'react';
+import { Route, useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import useAuth from '../hooks/useAuth';
+import authContext from '../context/authContext';
+import C from '../constants/constatnts';
+import PhoneBook from '../PhoneBook/PhoneBook';
+import PrivateRoute from '../PrivateRoute';
+import Registr from '../Login/index';
+import api from '../../api';
 
 const App = () => {
   const history = useHistory();
@@ -17,7 +22,8 @@ const App = () => {
   dispatch({ type: C.SET_USER, payload: user });
 
   useEffect(() => {
-    user &&
+    const req =
+      user &&
       api.contacts
         .getAll()
         .then((res) =>
@@ -25,14 +31,14 @@ const App = () => {
         )
         .catch((e) => {
           if (e.response.status === 401) {
-            history.push("/");
-            return;
+            history.push('/');
           }
         });
   });
 
   useEffect(() => {
-    user &&
+    const req =
+      user &&
       api.contacts
         .birthday()
         .then((res) =>
@@ -42,17 +48,25 @@ const App = () => {
   });
 
   useEffect(() => {
-    user &&
+    const req =
+      user &&
       api.group
         .getAll()
         .then((res) =>
           dispatch({ type: C.SET_ALL_CAT, payload: res.data.groups })
         )
-        .catch((e) => console.log(e));
+        .catch();
   });
 
   return (
-    <authContext.Provider value={{ login, logOut, user, ready }}>
+    <authContext.Provider
+      value={{
+        login,
+        logOut,
+        user,
+        ready,
+      }}
+    >
       <Route path="/" exact>
         <Registr />
       </Route>

@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from "react";
-import Contact from "../Contact/Contact.jsx";
-import { AppBar } from "../AppBar/AppBar.jsx";
+/* eslint-disable comma-dangle */
+/* eslint-disable operator-linebreak */
+/* eslint-disable implicit-arrow-linebreak */
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import Contact from '../Contact/Contact';
+import AppBar from '../AppBar/AppBar';
 import {
   Main,
   Content,
   BottomBlock,
   BottomHr,
   ButtonAdd,
-} from "../ui/uiAllContact";
-import { useHistory, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import api from "../../api";
+} from '../ui/uiAllContact';
 
 const AllContacts = () => {
   const history = useHistory();
@@ -34,13 +36,14 @@ const AllContacts = () => {
     <Main>
       <AppBar header="All Contacts" />
       <Content>
-        {renderContacts.map((item) => {
-          return <Contact key={item._id} contact={item} />;
-        })}
+        {renderContacts.map((item) => (
+          // eslint-disable-next-line no-underscore-dangle
+          <Contact key={item._id} contact={item} />
+        ))}
       </Content>
       <BottomBlock>
         <BottomHr />
-        <ButtonAdd onClick={() => history.push("/contacts/edit_contacts")}>
+        <ButtonAdd onClick={() => history.push('/contacts/edit_contacts')}>
           Add new contact
         </ButtonAdd>
       </BottomBlock>

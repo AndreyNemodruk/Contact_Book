@@ -1,16 +1,21 @@
-import React, { useRef, useEffect, useState } from "react";
+/* eslint-disable comma-dangle */
+/* eslint-disable object-curly-newline */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-undef */
+/* eslint-disable react/prop-types */
+import React, { useRef, useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {
   DropMenuItemButton,
   DropMenuItem,
   DropMenu,
   InputGroup,
   LabelGroup,
-} from "../ui/ui";
-import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
-import C from "../constants/constatnts";
-import api from "../../api";
-import { useHistory } from "react-router-dom";
+} from '../ui/ui';
+import C from '../constants/constatnts';
+import api from '../../api';
 
 const DropMenuCategories = styled(DropMenu)`
   position: fixed;
@@ -18,12 +23,7 @@ const DropMenuCategories = styled(DropMenu)`
   top: ${(props) => props.clientY}px;
 `;
 
-export const CategoriesMenu = ({
-  toggle,
-  clientX,
-  clientY,
-  changedCategory,
-}) => {
+const CategoriesMenu = ({ toggle, clientX, clientY, changedCategory }) => {
   const categories = useSelector((state) => state.categories.categories);
   const dispatch = useDispatch();
   const elRef = useRef(null);
@@ -31,20 +31,20 @@ export const CategoriesMenu = ({
   const [editedGroup, setEditedGroup] = useState(changedCategory);
   const history = useHistory();
 
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("scroll", toggle);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.addEventListener("scroll", toggle);
-    };
-  });
-
   const handleClickOutside = (event) => {
     if (elRef && !elRef.current.contains(event.target)) {
       toggle();
     }
   };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('scroll', toggle);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.addEventListener('scroll', toggle);
+    };
+  });
 
   const handleDelete = () => {
     api.group
@@ -55,15 +55,12 @@ export const CategoriesMenu = ({
         );
         dispatch({ type: C.SET_ALL_CAT, payload: remainingCat });
         toggle();
-        dispatch({ type: C.SELECT_CAT, payload: "allContacts" });
-        history.push("/contacts");
-        return;
+        dispatch({ type: C.SELECT_CAT, payload: 'allContacts' });
+        history.push('/contacts');
       })
       .catch((e) => {
-        console.log(e);
         if (e.response.status === 401) {
-          history.push("/");
-          return;
+          history.push('/');
         }
       });
   };
@@ -73,11 +70,11 @@ export const CategoriesMenu = ({
   };
 
   const handleEditGroup = () => {
-    setshowEditGroup((showEditGroup) => !showEditGroup);
+    setshowEditGroup((prev) => !prev);
   };
 
   const handleUpdateGroup = (e) => {
-    if (e.keyCode == 27) {
+    if (e.keyCode === 27) {
       toggle();
       return;
     }
@@ -96,10 +93,9 @@ export const CategoriesMenu = ({
         dispatch({ type: C.SET_ALL_CAT, payload: updatedCategories });
         toggle();
       })
-      .catch((e) => {
-        if (e.response.status === 401) {
-          history.push("/");
-          return;
+      .catch((error) => {
+        if (error.response.status === 401) {
+          history.push('/');
         }
       });
   };
@@ -135,3 +131,5 @@ export const CategoriesMenu = ({
     </DropMenuCategories>
   );
 };
+
+export default CategoriesMenu;

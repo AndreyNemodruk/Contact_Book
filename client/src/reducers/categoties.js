@@ -1,4 +1,4 @@
-import C from '../components/constants/constatnts.js'
+import C from '../components/constants/constatnts';
 
 const initialState = {
   categories: null,
@@ -11,9 +11,9 @@ const categories = (state = initialState, action) => {
     case C.SELECT_CAT:
       return { ...state, selectedCat: payload };
     case C.SET_ALL_CAT:
-      return { ...state,  categories: payload};
+      return { ...state, categories: payload };
     case C.ADD_CATEGORY:
-      return {...state, categories: [...state.categories, payload]}
+      return { ...state, categories: [...state.categories, payload] };
     default:
       return state;
   }

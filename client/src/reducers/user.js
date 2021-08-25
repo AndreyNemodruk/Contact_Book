@@ -1,11 +1,11 @@
-import C from "../components/constants/constatnts";
+import C from '../components/constants/constatnts';
 
 const initialState = {
-  userId: "",
+  userId: '',
   token: null,
-  firstName: "",
-  secondName: "",
-  file: "",
+  firstName: '',
+  secondName: '',
+  file: '',
 };
 
 const user = (state = initialState, action) => {

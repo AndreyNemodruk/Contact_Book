@@ -1,5 +1,6 @@
-import React from "react";
-import styled from "styled-components";
+/* eslint-disable react/prop-types */
+import React from 'react';
+import styled from 'styled-components';
 
 const BirthdayItemWrap = styled.div`
    {
@@ -39,7 +40,7 @@ const BirthdayDate = styled.span`
   }
 `;
 
-export const BirthdayItem = ({ item }) => {
+const BirthdayItem = ({ item }) => {
   const thisDay = new Date();
   const year = thisDay.getFullYear();
   const month = thisDay.getMonth() + 1;
@@ -52,7 +53,9 @@ export const BirthdayItem = ({ item }) => {
         <BirthName>{`${item.name} ${item.surName}`}</BirthName>
         <BirthdayAge today={isToday}>{`Turns ${year - item.year}`}</BirthdayAge>
       </div>
-      <BirthdayDate>{isToday ? "Today" : item.dateString}</BirthdayDate>
+      <BirthdayDate>{isToday ? 'Today' : item.dateString}</BirthdayDate>
     </BirthdayItemWrap>
   );
 };
+
+export default BirthdayItem;

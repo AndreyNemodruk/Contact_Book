@@ -1,27 +1,34 @@
-import React, { useState, useRef, useEffect } from "react";
-import { AppBar } from "../AppBar/AppBar.jsx";
-import styled from "styled-components";
-import UserAvatar from "../../ui/Avatar.jsx";
-import api from "../../api";
-import { useSelector, useDispatch } from "react-redux";
-import { useHistory, useLocation, useParams } from "react-router-dom";
-import C from "../constants/constatnts";
-import { ButtonClose } from "../ui/ui";
-import { useHandleError } from "../hooks/useHandleError.js";
-import { ErrorMessage } from "../ErrorMessage/ErrorMessage.jsx";
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable no-undef */
+import React, { useState, useRef, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import styled from 'styled-components';
+import AppBar from '../AppBar/AppBar';
+import UserAvatar from '../../ui/Avatar';
+import api from '../../api';
+import C from '../constants/constatnts';
+import { ButtonClose } from '../ui/ui';
+import useHandleError from '../hooks/useHandleError';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import { BottomHr, ButtonAdd } from '../ui/uiAllContact';
+import breakpoint from '../constants/breakpoints';
 
 const Main = styled.div`
   grid-area: main;
   display: grid;
   grid-template-rows: 73px 1fr;
   grid-template-areas:
-    "appbar"
-    "main";
+    'appbar'
+    'main';
   position: relative;
 `;
 
 const Content = styled.div`
-  padding: 0 50px 0;
+  padding: 0 25px 0;
+  @media ${breakpoint.device.lg} {
+    padding: 0 50px 0;
+  }
   position: relative;
   margin-top: 30px;
 `;
@@ -35,25 +42,7 @@ const BottomBlock = styled.div`
   grid-template-columns: 1fr 183px 183px;
   grid-column-gap: 32px;
 `;
-const BottomHr = styled.div`
-  width: 100%;
-  position: relative;
-  border-top: 1px solid #9699a5;
-  grid-column: 1 / 2;
-`;
 
-const ButtonAdd = styled.button`
-  background-color: #0fb0df;
-  width: 182px;
-  height: 46px;
-  border-radius: 30px;
-  outline: none;
-  border: none;
-  cursor: pointer;
-  position: relative;
-  bottom: 23px;
-  grid-column: 2 / 3;
-`;
 const ButtonCancel = styled(ButtonAdd)`
   color: #00b3e4;
   background-color: white;
@@ -64,8 +53,11 @@ const ButtonCancel = styled(ButtonAdd)`
 const Form = styled.form`
   height: 100%;
   display: grid;
+  @media ${breakpoint.device.lg} {
+    grid-template-columns: 151px 1fr;
+  }
   grid-template-rows: 1fr 57px;
-  grid-template-columns: 151px 1fr;
+  grid-template-columns: 125px 1fr;
   position: relative;
 `;
 
@@ -111,16 +103,24 @@ const InputWrap = styled.div`
   padding-bottom: 15px;
 `;
 
+const UserFoto = styled(UserAvatar)`
+  @media ${breakpoint.device.lg} {
+    width: 151px;
+    height: 151px;
+  }
+  width: 120px;
+  height: 120px;
+`;
+
 const EditContact = () => {
-  const { id } = useParams();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const initForm = {
-    email: "",
-    phone: "",
-    firstName: "",
-    secondName: "",
-    file: "",
+    email: '',
+    phone: '',
+    firstName: '',
+    secondName: '',
+    file: '',
   };
   const [form, setForm] = useState(initForm);
   const { error, setErrorFromApi } = useHandleError();
@@ -133,10 +133,6 @@ const EditContact = () => {
     }
   }, [user]);
 
-  const clearError = () => {
-    setTimeout(() => setError(null), 2500);
-  };
-
   const handleForm = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -145,7 +141,7 @@ const EditContact = () => {
     const file = fileRef.current.files && fileRef.current.files[0];
     if (!file) return;
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append('file', file);
 
     api.image
       .upload(formData)
@@ -155,7 +151,7 @@ const EditContact = () => {
       })
       .catch((e) => {
         if (e.response.status === 401) {
-          history.push("/");
+          history.push('/');
           return;
         }
         setErrorFromApi(e.response.data);
@@ -166,16 +162,16 @@ const EditContact = () => {
     e.preventDefault();
     api.users
       .update(form)
-      .then((res) => {
+      .then(() => {
         dispatch({ type: C.UPDATE_USER, payload: form });
-        const user = JSON.parse(localStorage.getItem("phone_book"));
-        const updatedUser = { ...user, ...form };
-        localStorage.setItem("phone_book", JSON.stringify(updatedUser));
-        history.push("/contacts");
+        const us = JSON.parse(localStorage.getItem('phone_book'));
+        const updatedUser = { ...us, ...form };
+        localStorage.setItem('phone_book', JSON.stringify(updatedUser));
+        history.push('/contacts');
       })
-      .catch((e) => {
-        if (e.response.status === 401) {
-          history.push("/");
+      .catch((err) => {
+        if (err.response.status === 401) {
+          history.push('/');
           return;
         }
         setErrorFromApi(e.response.data);
@@ -186,12 +182,12 @@ const EditContact = () => {
       <AppBar header="Edit User" />
       <Content>
         <Form onSubmit={(e) => submitForm(e)}>
-          <ButtonClose type="button" onClick={() => history.push("/contacts")}>
+          <ButtonClose type="button" onClick={() => history.push('/contacts')}>
             X
           </ButtonClose>
           <WrapAvatar>
             <label htmlFor="url">
-              <UserAvatar sizing="151px" src={form?.file} />
+              <UserFoto src={form?.file} />
             </label>
             <InputImage
               type="file"
@@ -257,7 +253,7 @@ const EditContact = () => {
             <ButtonAdd type="submit">Save Changes</ButtonAdd>
             <ButtonCancel
               type="button"
-              onClick={() => history.push("/contacts")}
+              onClick={() => history.push('/contacts')}
             >
               Cancel
             </ButtonCancel>

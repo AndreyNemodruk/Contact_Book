@@ -4,7 +4,6 @@ const Contact = require("../models/Contact.js");
 const { check, validationResult } = require("express-validator");
 const router = Router();
 const auth = require("../midlware/auth.midlware");
-//const shortId = require('shortid')
 require("dotenv").config();
 
 router.post(
@@ -42,7 +41,6 @@ router.post(
         return res.status(201).json(group);
       }
     } catch (e) {
-      console.log(e);
       res.status(500).json({ message: "error, try again" });
     }
   }

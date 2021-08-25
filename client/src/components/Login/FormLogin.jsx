@@ -1,11 +1,10 @@
-import React, { useState, useContext } from "react";
-import { useDispatch } from "react-redux";
-import styled from "styled-components";
-import { ErrorMessage } from "../ErrorMessage/ErrorMessage.jsx";
-import api from "../../api";
-import { useHistory } from "react-router-dom";
-import authContext from "../context/authContext";
-import { useHandleError } from "../hooks/useHandleError.js";
+import React, { useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import styled from 'styled-components';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import api from '../../api';
+import authContext from '../context/authContext';
+import useHandleError from '../hooks/useHandleError';
 
 const Form = styled.form`
   width: 100%;
@@ -52,8 +51,8 @@ const InputValue = styled.input`
 
 const FormReg = () => {
   const initForm = {
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   };
   const { error, setErrorFromApi } = useHandleError();
   const [form, setForm] = useState(initForm);
@@ -70,10 +69,10 @@ const FormReg = () => {
       .login(form)
       .then((res) => {
         login(res);
-        history.push("/contacts");
+        history.push('/contacts');
       })
-      .catch((e) => {
-        setErrorFromApi(e.response.data);
+      .catch((err) => {
+        setErrorFromApi(err.response.data);
       });
   };
 

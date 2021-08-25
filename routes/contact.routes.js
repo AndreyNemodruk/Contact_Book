@@ -1,22 +1,22 @@
-const { Router } = require("express");
-const Contact = require("../models/Contact");
-const { check, validationResult } = require("express-validator");
+const { Router } = require('express');
+const Contact = require('../models/Contact');
+const { check, validationResult } = require('express-validator');
 const router = Router();
-const auth = require("../midlware/auth.midlware");
-require("dotenv").config();
-var mongoose = require("mongoose");
+const auth = require('../midlware/auth.midlware');
+require('dotenv').config();
+var mongoose = require('mongoose');
 
 router.post(
-  "/contact_create",
+  '/contact_create',
   auth,
   [
-    check("phone", "Телефон в формате +380....").isMobilePhone("uk-UA"),
-    check("email", "Почтовый ящик указан некорректно").isEmail(),
-    check("birthday", "Дата должна быть в формате ДД/MM/ГГГГ").isDate({
-      format: "DD/MM/YYYY",
+    check('phone', 'Телефон в формате +380....').isMobilePhone(['uk-UA']),
+    check('email', 'Почтовый ящик указан некорректно').isEmail(),
+    check('birthday', 'Дата должна быть в формате ДД/MM/ГГГГ').isDate({
+      format: 'DD/MM/YYYY',
     }),
-    check("name", "Введите имя").isLength({ min: 2 }),
-    check("surName", "Введите фамилию").isLength({ min: 2 }),
+    check('name', 'Введите имя').isLength({ min: 2 }),
+    check('surName', 'Введите фамилию').isLength({ min: 2 }),
   ],
 
   async (req, res) => {
@@ -25,7 +25,7 @@ router.post(
       if (!errors.isEmpty()) {
         return res.status(400).json({
           errors: errors.array(),
-          message: "Данные введены некорректно",
+          message: 'Данные введены некорректно',
         });
       }
 
@@ -42,7 +42,7 @@ router.post(
         group,
         url,
       } = req.body;
-      const date = birthday.split("/").reverse().join("-");
+      const date = birthday.split('/').reverse().join('-');
       const user = await req.user.userId;
       const contact = new Contact({
         name,
@@ -68,7 +68,7 @@ router.post(
         {
           $addFields: {
             dateString: {
-              $dateToString: { format: "%d/%m/%Y", date: "$birthday" },
+              $dateToString: { format: '%d/%m/%Y', date: '$birthday' },
             },
           },
         },
@@ -78,22 +78,22 @@ router.post(
         return res.status(201).json({ contacts });
       }
     } catch (e) {
-      res.status(500).json({ message: "error, try again" });
+      res.status(500).json({ message: 'error, try again' });
     }
   }
 );
 
 router.put(
-  "/edit_contact/:id",
+  '/edit_contact/:id',
   auth,
   [
-    check("phone", "Телефон в формате +380....").isMobilePhone("uk-UA"),
-    check("email", "Почтовый ящик указан некорректно").isEmail(),
-    check("birthday", "Дата должна быть в формате ДД/MM/ГГГГ").isDate({
-      format: "DD/MM/YYYY",
+    check('phone', 'Телефон в формате +380....').isMobilePhone('uk-UA'),
+    check('email', 'Почтовый ящик указан некорректно').isEmail(),
+    check('birthday', 'Дата должна быть в формате ДД/MM/ГГГГ').isDate({
+      format: 'DD/MM/YYYY',
     }),
-    check("name", "Введите имя").isLength({ min: 2 }),
-    check("surName", "Введите фамилию").isLength({ min: 2 }),
+    check('name', 'Введите имя').isLength({ min: 2 }),
+    check('surName', 'Введите фамилию').isLength({ min: 2 }),
   ],
 
   async (req, res) => {
@@ -102,13 +102,13 @@ router.put(
       if (!errors.isEmpty()) {
         return res.status(400).json({
           errors: errors.array(),
-          message: "Данные введены некорректно",
+          message: 'Данные введены некорректно',
         });
       }
       const body = {
         ...req.body,
-        birthday: req.body.birthday.split("/").reverse().join("-"),
-        dateString: "",
+        birthday: req.body.birthday.split('/').reverse().join('-'),
+        dateString: '',
       };
       await Contact.findByIdAndUpdate({ _id: req.params.id }, body);
 
@@ -121,21 +121,21 @@ router.put(
         {
           $addFields: {
             dateString: {
-              $dateToString: { format: "%d/%m/%Y", date: "$birthday" },
+              $dateToString: { format: '%d/%m/%Y', date: '$birthday' },
             },
           },
         },
       ]);
       return res.status(201).json(contact[0]);
     } catch (e) {
-      res.status(500).json({ message: "error, try again" });
+      res.status(500).json({ message: 'error, try again' });
     }
   }
 );
 
-router.get("/group_contacts/:id", auth, async (req, res) => {
+router.get('/group_contacts/:id', auth, async (req, res) => {
   try {
-    contacts = await Contact.aggregate([
+    const contacts = await Contact.aggregate([
       {
         $match: {
           category: mongoose.Types.ObjectId(req.params.id),
@@ -144,7 +144,7 @@ router.get("/group_contacts/:id", auth, async (req, res) => {
       {
         $addFields: {
           dateString: {
-            $dateToString: { format: "%d/%m/%Y", date: "$birthday" },
+            $dateToString: { format: '%d/%m/%Y', date: '$birthday' },
           },
         },
       },
@@ -152,11 +152,11 @@ router.get("/group_contacts/:id", auth, async (req, res) => {
     return res.json({ contacts });
   } catch (e) {
     console.log(e);
-    res.status(500).json({ message: "error, try again!!!!!!!" });
+    res.status(500).json({ message: 'error, try again!!!!!!!' });
   }
 });
 
-router.get("/all_contacts", auth, async (req, res) => {
+router.get('/all_contacts', auth, async (req, res) => {
   const userId = req.user.userId;
   try {
     const contacts = await Contact.aggregate([
@@ -168,7 +168,7 @@ router.get("/all_contacts", auth, async (req, res) => {
       {
         $addFields: {
           dateString: {
-            $dateToString: { format: "%d/%m/%Y", date: "$birthday" },
+            $dateToString: { format: '%d/%m/%Y', date: '$birthday' },
           },
         },
       },
@@ -176,11 +176,11 @@ router.get("/all_contacts", auth, async (req, res) => {
     return res.json({ contacts });
   } catch (e) {
     console.log(e);
-    res.status(500).json({ message: "error, try again!!!!!!!" });
+    res.status(500).json({ message: 'error, try again!!!!!!!' });
   }
 });
 
-router.get("/all_contacts/birthday", auth, async (req, res) => {
+router.get('/all_contacts/birthday', auth, async (req, res) => {
   const userId = req.user.userId;
   const thisDay = new Date().getDate();
   const thisMonth = new Date().getMonth();
@@ -199,25 +199,25 @@ router.get("/all_contacts/birthday", auth, async (req, res) => {
       {
         $addFields: {
           year: {
-            $year: "$birthday",
+            $year: '$birthday',
           },
           month: {
-            $month: "$birthday",
+            $month: '$birthday',
           },
           day: {
-            $dayOfMonth: "$birthday",
+            $dayOfMonth: '$birthday',
           },
           dateString: {
-            $dateToString: { format: "%d/%m/%Y", date: "$birthday" },
+            $dateToString: { format: '%d/%m/%Y', date: '$birthday' },
           },
           sortDate: {
             $dateFromParts: {
               year: 1900,
               month: {
-                $month: "$birthday",
+                $month: '$birthday',
               },
               day: {
-                $dayOfMonth: "$birthday",
+                $dayOfMonth: '$birthday',
               },
             },
           },
@@ -261,17 +261,17 @@ router.get("/all_contacts/birthday", auth, async (req, res) => {
     ]);
     return res.json({ contacts });
   } catch (e) {
-    res.status(500).json({ message: "error, try again!!!!!!!" });
+    res.status(500).json({ message: 'error, try again!!!!!!!' });
   }
 });
 
-router.delete("/del_conact/:_id", auth, async (req, res) => {
+router.delete('/del_conact/:_id', auth, async (req, res) => {
   try {
     await Contact.findByIdAndDelete(req.params._id);
-    return res.json({ message: "contact delete" });
+    return res.json({ message: 'contact delete' });
   } catch (e) {
     console.log(e);
-    res.status(500).json({ message: "error, try again!!!!!!!" });
+    res.status(500).json({ message: 'error, try again!!!!!!!' });
   }
 });
 

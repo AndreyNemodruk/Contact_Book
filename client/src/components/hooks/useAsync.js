@@ -1,5 +1,5 @@
-import { useReducer, useCallback, useRef } from "react";
-import useMounted from "./useMounted";
+import { useReducer, useCallback, useRef } from 'react';
+import useMounted from './useMounted';
 
 function useSafedDispatch(dispatch) {
   const mounted = useMounted();
@@ -14,7 +14,7 @@ function useSafedDispatch(dispatch) {
   );
 }
 
-const defaultState = { status: "idle", data: null, error: null };
+const defaultState = { status: 'idle', data: null, error: null };
 
 function useAsync(initialState = {}) {
   const initStateRef = useRef({
@@ -30,12 +30,12 @@ function useAsync(initialState = {}) {
   const dispatch = useSafedDispatch(unsafeDispatch);
 
   const setData = useCallback(
-    (data) => dispatch({ data, status: "resolved" }),
+    (data) => dispatch({ data, status: 'resolved' }),
     [dispatch]
   );
 
   const setError = useCallback(
-    (error) => dispatch({ error, status: "rejected" }),
+    (error) => dispatch({ error, status: 'rejected' }),
     [dispatch]
   );
 
@@ -46,7 +46,7 @@ function useAsync(initialState = {}) {
       if (!promise) {
         return;
       }
-      dispatch({ status: "pending" });
+      dispatch({ status: 'pending' });
 
       await promise.then(
         (data) => {
@@ -70,10 +70,10 @@ function useAsync(initialState = {}) {
     setData,
     setError,
     reset,
-    isLoading: status === "pending",
-    isSuccess: status === "resolved",
-    isError: status === "rejected",
-    isIdle: status === "idle",
+    isLoading: status === 'pending',
+    isSuccess: status === 'resolved',
+    isError: status === 'rejected',
+    isIdle: status === 'idle',
   };
 }
 

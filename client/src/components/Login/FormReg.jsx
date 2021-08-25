@@ -1,19 +1,21 @@
-import React, { useState, useRef, useEffect } from "react";
-import styled from "styled-components";
-import { ErrorMessage } from "../ErrorMessage/ErrorMessage.jsx";
-import api from "../../api";
-import UserAvatar from "../../ui/Avatar.jsx";
-import { useHandleError } from "../hooks/useHandleError.js";
+/* eslint-disable no-undef */
+/* eslint-disable react/prop-types */
+import React, { useState, useRef, useEffect } from 'react';
+import styled from 'styled-components';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import api from '../../api';
+import UserAvatar from '../../ui/Avatar';
+import useHandleError from '../hooks/useHandleError';
 
 const Form = styled.form`
   width: 100%;
   display: grid;
   grid-template-areas:
-    "error error"
-    "col1 col2"
-    "col1 col2"
-    "col1 foto"
-    "button button";
+    'error error'
+    'col1 col2'
+    'col1 col2'
+    'col1 foto'
+    'button button';
   grid-template-columns: 1fr 1fr;
   grid-gap: 20px;
 `;
@@ -61,14 +63,14 @@ const InputValue = styled.input`
 `;
 
 const FormReg = ({ setIsLogin }) => {
-  const fakeImg = "http://contactbook.fun/api/img/avatarka.jpg";
+  const fakeImg = '../../images/avatarka.jpg';
   const initForm = {
-    email: "",
-    password: "",
-    confirm: "",
-    phone: "",
-    firstName: "",
-    secondName: "",
+    email: '',
+    password: '',
+    confirm: '',
+    phone: '',
+    firstName: '',
+    secondName: '',
     file: fakeImg,
   };
 
@@ -82,9 +84,9 @@ const FormReg = ({ setIsLogin }) => {
 
   useEffect(() => {
     if (form.password !== form.confirm) {
-      setStaticError("Пароли несовпадают");
+      setStaticError('Пароли несовпадают');
     } else {
-      setStaticError("");
+      setStaticError('');
     }
   }, [form.password, form.confirm]);
 
@@ -96,18 +98,18 @@ const FormReg = ({ setIsLogin }) => {
         setIsLogin(true);
         setForm({});
       })
-      .catch((e) => {
-        setErrorFromApi(e.response.data);
+      .catch((err) => {
+        setErrorFromApi(err.response.data);
       });
   };
 
   const fileRef = useRef();
 
-  function handleUpload(e) {
+  function handleUpload() {
     const file = fileRef.current.files && fileRef.current.files[0];
     if (!file) return;
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append('file', file);
 
     api.image
       .upload(formData)
@@ -198,23 +200,23 @@ const FormReg = ({ setIsLogin }) => {
       </div>
       <div
         style={{
-          width: "100%",
-          height: "100%",
-          flexDirection: "column",
-          alignItems: "center",
-          display: "flex",
-          justifyContent: "center",
+          width: '100%',
+          height: '100%',
+          flexDirection: 'column',
+          alignItems: 'center',
+          display: 'flex',
+          justifyContent: 'center',
         }}
       >
         <Label htmlFor="foto">
-          <p style={{ margin: "4px 0 10px 0", textAlign: "center" }}>
+          <p style={{ margin: '4px 0 10px 0', textAlign: 'center' }}>
             Your photo, ckick here:
           </p>
           <UserAvatar sizing="120px" src={form.file} />
         </Label>
         <ErrorMessage error={error?.error} />
         <InputValue
-          style={{ display: "none" }}
+          style={{ display: 'none' }}
           onChange={handleUpload}
           ref={fileRef}
           type="file"

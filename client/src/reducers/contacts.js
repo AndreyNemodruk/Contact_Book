@@ -1,11 +1,11 @@
-import C from '../components/constants/constatnts.js'
+import C from '../components/constants/constatnts';
 
 const initialState = {
   allContacts: [],
   groupContacts: [],
   filter: '',
-  birthday: []
-}
+  birthday: [],
+};
 
 const contacts = (state = initialState, action) => {
   const { type, payload } = action;

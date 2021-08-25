@@ -1,28 +1,37 @@
-import React, { useState, useEffect } from "react";
-import Contact from "../Contact/Contact.jsx";
-import { AppBar } from "../AppBar/AppBar.jsx";
-import { useHistory, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import api from "../../api";
-import styled from "styled-components";
-import { ButtonClose } from "../ui/ui";
-import Avatar from "../../ui/Avatar.jsx";
-import Icons from "../img/icons.jsx";
-import Spinner from "../Spinner/Spinner.jsx";
+/* eslint-disable operator-linebreak */
+/* eslint-disable react/jsx-curly-newline */
+/* eslint-disable implicit-arrow-linebreak */
+/* eslint-disable arrow-body-style */
+/* eslint-disable comma-dangle */
+/* eslint-disable no-underscore-dangle */
+import React, { useState, useEffect } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import styled from 'styled-components';
+import api from '../../api';
+import { ButtonClose } from '../ui/ui';
+import Avatar from '../../ui/Avatar';
+import AppBar from '../AppBar/AppBar';
+import Icons from '../img/icons';
+import Spinn from '../Spinner/Spinner';
+import breakpoint from '../constants/breakpoints';
 
 const Main = styled.div`
   grid-area: main;
   display: grid;
   grid-template-rows: 73px 1fr;
   grid-template-areas:
-    "appbar"
-    "main"
-    "button";
+    'appbar'
+    'main'
+    'button';
   position: relative;
 `;
 
 const Content = styled.div`
-  padding: 23px 84px 23px 120px;
+  @media ${breakpoint.device.lg} {
+    padding: 23px 84px 23px 120px;
+  }
+  padding: 23px 10px 120px;
   position: relative;
   display: grid;
   grid-template-columns: 150px 250px auto;
@@ -30,8 +39,12 @@ const Content = styled.div`
   grid-column-gap: 20px;
 `;
 const Button = styled(ButtonClose)`
+  @media ${breakpoint.device.lg} {
+    top: 15px;
+    right: 75px;
+  }
   top: 15px;
-  right: 75px;
+  right: 15px;
 `;
 const AvatarWrap = styled.div`
   grid-column: 1/2;
@@ -69,12 +82,6 @@ const ColumnContent = styled.div`
   padding-top: 50px;
   color: #22282d;
   font-size: 0.9rem;
-`;
-
-const RightColumnContent = styled(ColumnContent)`
-  grid-column: 2/3;
-  font-size: 0.8rem;
-  padding-top: 59px;
 `;
 
 const RowWrap = styled.div`
@@ -124,6 +131,15 @@ const IconFotoWrap = styled.div`
   left: 0;
 `;
 
+const UserFoto = styled(Avatar)`
+  @media ${breakpoint.device.lg} {
+    width: 151px;
+    height: 151px;
+  }
+  width: 120px;
+  height: 120px;
+`;
+
 const ConactInform = () => {
   const { id } = useParams();
   const history = useHistory();
@@ -153,15 +169,14 @@ const ConactInform = () => {
         .catch((e) => {
           setShowSpinner(false);
           if (e.response.status === 401) {
-            history.push("/");
-            return;
+            history.push('/');
           }
         });
     }
     return () => {
       return req;
     };
-  }, [contact?.instagram]);
+  }, [contact.instagram, history]);
 
   return (
     <Main>
@@ -170,9 +185,9 @@ const ConactInform = () => {
         name={` (${contact?.name} ${contact?.surName})`}
       />
       <Content>
-        <Button onClick={() => history.push("/contacts")}>X</Button>
+        <Button onClick={() => history.push('/contacts')}>X</Button>
         <AvatarWrap>
-          <Avatar sizing="150px" src={contact?.url} />
+          <UserFoto src={contact?.url} />
         </AvatarWrap>
         <ContactInfo>
           <ButtonEdit
@@ -204,11 +219,11 @@ const ConactInform = () => {
           </RowWrap>
           <RowWrap>
             <LabelInfo>Information</LabelInfo>
-            <Info style={{ gridColumn: "2/4", paddingRight: "100px" }}>
+            <Info style={{ gridColumn: '2/4', paddingRight: '100px' }}>
               {contact?.information}
             </Info>
           </RowWrap>
-          <RowWrap style={{ paddingBottom: "10px" }}>
+          <RowWrap style={{ paddingBottom: '10px' }}>
             <LabelInfo>Instagramm</LabelInfo>
             <InfoInstagramm>
               <IconFotoWrap>
@@ -217,7 +232,7 @@ const ConactInform = () => {
               {`   ${countMedia || 0} Photos and Videos`}
             </InfoInstagramm>
             <FotoInstWrap>
-              {showSpinner && <Spinner />}
+              {showSpinner && <Spinn />}
               {mediaList &&
                 mediaList.map((item) => {
                   return <FotoInst key={item.id} src={item.src} />;

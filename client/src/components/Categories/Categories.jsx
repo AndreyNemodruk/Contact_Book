@@ -1,9 +1,15 @@
-import React, { memo } from "react";
-import { useHistory } from "react-router-dom";
-import styled from "styled-components";
-import Icons from "../img/icons.jsx";
-import { useSelector, useDispatch } from "react-redux";
-import C from "../constants/constatnts";
+/* eslint-disable operator-linebreak */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable implicit-arrow-linebreak */
+/* eslint-disable indent */
+/* eslint-disable no-confusing-arrow */
+/* eslint-disable react/prop-types */
+import React, { memo } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import styled from 'styled-components';
+import Icons from '../img/icons';
+import C from '../constants/constatnts';
 
 const ListCategories = styled.ul`
   padding: 0;
@@ -79,7 +85,7 @@ const ButtonCategories = styled.button`
       background-image: linear-gradient(to right, #7e8eda 0%, rgba(255, 255, 255, 0) 100%);
       opacity: 0.13;
   }`
-        : ""}
+        : ''}
   }
 `;
 
@@ -90,8 +96,8 @@ const Category = ({ handleShowMenu }) => {
   const categories = useSelector((state) => state.categories.categories);
 
   const handleAllContact = () => {
-    dispatch({ type: C.SELECT_CAT, payload: "allContacts" });
-    history.push("/contacts");
+    dispatch({ type: C.SELECT_CAT, payload: 'allContacts' });
+    history.push('/contacts');
   };
 
   const handleCategory = (id) => {
@@ -105,27 +111,25 @@ const Category = ({ handleShowMenu }) => {
         <ButtonCategories
           autoFocus
           onClick={handleAllContact}
-          isActive={activeCategory === "allContacts"}
+          isActive={activeCategory === 'allContacts'}
         >
           All categories
         </ButtonCategories>
       </ItemCategories>
       {categories &&
-        categories.map((item) => {
-          return (
-            <ItemCategories key={item._id}>
-              <ButtonCategories
-                onClick={() => handleCategory(item._id)}
-                isActive={activeCategory === item._id}
-              >
-                {item.groupName}
-              </ButtonCategories>
-              <ButtonMenu onClick={(e) => handleShowMenu(e, item)}>
-                <Icons name="MenuDots" />
-              </ButtonMenu>
-            </ItemCategories>
-          );
-        })}
+        categories.map((item) => (
+          <ItemCategories key={item._id}>
+            <ButtonCategories
+              onClick={() => handleCategory(item._id)}
+              isActive={activeCategory === item._id}
+            >
+              {item.groupName}
+            </ButtonCategories>
+            <ButtonMenu onClick={(e) => handleShowMenu(e, item)}>
+              <Icons name="MenuDots" />
+            </ButtonMenu>
+          </ItemCategories>
+        ))}
     </ListCategories>
   );
 };

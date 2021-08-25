@@ -1,9 +1,10 @@
-import React, { useState, useCallback } from "react";
-import styled from "styled-components";
-import Category from "./Categories.jsx";
-import { CategoriesMenu } from "./CategoriesMenu.jsx";
-import useToggle from "../hooks/useToogle";
-import { useSelector } from "react-redux";
+/* eslint-disable comma-dangle */
+import React, { useState, useCallback } from 'react';
+import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import Category from './Categories';
+import CategoriesMenu from './CategoriesMenu';
+import useToggle from '../hooks/useToogle';
 
 const ListCategoriesWrap = styled.div`
   margin-top: 19px;
@@ -20,24 +21,27 @@ const HeadlineSideBar = styled.h2`
   margin: 35px 0 5px 55px;
 `;
 
-export const Categories = () => {
+const Categories = () => {
   const [toggle, setToggle] = useToggle(false);
   const [clientX, setClientX] = useState(null);
   const [clientY, setClientY] = useState(null);
   const [changedCategory, setChangedCategory] = useState(null);
   const categories = useSelector((state) => state.categories.categories);
 
-  const handleShowMenu = useCallback((e, category) => {
-    setClientX(e.clientX);
-    setClientY(e.clientY);
-    setChangedCategory(category);
-    setToggle();
-  }, []);
+  const handleShowMenu = useCallback(
+    (e, category) => {
+      setClientX(e.clientX);
+      setClientY(e.clientY);
+      setChangedCategory(category);
+      setToggle();
+    },
+    [setToggle]
+  );
   return (
     <>
       <HeadlineSideBar>Categories</HeadlineSideBar>
       <ListCategoriesWrap>
-        <div style={{ position: "relative" }}>
+        <div style={{ position: 'relative' }}>
           {toggle && (
             <CategoriesMenu
               toggle={setToggle}
@@ -56,3 +60,4 @@ export const Categories = () => {
     </>
   );
 };
+export default Categories;

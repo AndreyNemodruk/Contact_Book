@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
-export const useHandleError = () => {
+const useHandleError = () => {
   const [errorFromApi, setErrorFromApi] = useState(null);
   const [error, setError] = useState(null);
   const clearError = () => {
@@ -27,3 +27,5 @@ export const useHandleError = () => {
 
   return { setErrorFromApi, error };
 };
+
+export default useHandleError;

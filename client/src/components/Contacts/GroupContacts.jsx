@@ -1,21 +1,29 @@
-import React, { useState, useEffect } from "react";
-import Contact from "../Contact/Contact.jsx";
-import { AppBar } from "../AppBar/AppBar.jsx";
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable arrow-body-style */
+/* eslint-disable comma-dangle */
+/* eslint-disable operator-linebreak */
+/* eslint-disable implicit-arrow-linebreak */
+import React, { useState, useEffect } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import styled from 'styled-components';
+import Contact from '../Contact/Contact';
+import AppBar from '../AppBar/AppBar';
 import {
   Main,
   Content,
   BottomBlock,
   BottomHr,
   ButtonAdd,
-} from "../ui/uiAllContact";
-import { useHistory, useParams } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import api from "../../api";
-import C from "../constants/constatnts";
-import styled from "styled-components";
+} from '../ui/uiAllContact';
+import api from '../../api';
+import C from '../constants/constatnts';
+import breakpoint from '../constants/breakpoints';
 
 const GroupContent = styled(Content)`
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  @media ${breakpoint.device.lg} {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
 `;
 
 const GroupContacts = () => {
@@ -43,11 +51,10 @@ const GroupContacts = () => {
       })
       .catch((e) => {
         if (e.response.status === 401) {
-          history.push("/");
-          return;
+          history.push('/');
         }
       });
-  }, [id]);
+  }, [filter, history, id]);
 
   useEffect(() => {
     setContactsForRender(contacts);
@@ -59,19 +66,19 @@ const GroupContacts = () => {
       );
       setContactsForRender(filterContact);
     }
-  }, [filter]);
+  }, [contacts, filter]);
 
   return (
     <Main>
       <AppBar header={groupName?.groupName} />
       <GroupContent>
         {contactsForRender.map((item) => {
-          return <Contact key={item._id} contact={item} sizeGroup={true} />;
+          return <Contact key={item._id} contact={item} sizeGroup />;
         })}
       </GroupContent>
       <BottomBlock>
         <BottomHr />
-        <ButtonAdd onClick={() => history.push("/contacts/edit_contacts")}>
+        <ButtonAdd onClick={() => history.push('/contacts/edit_contacts')}>
           Add new contact
         </ButtonAdd>
       </BottomBlock>
